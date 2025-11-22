@@ -8,7 +8,7 @@ services:
     image: influxdb:1.8 # (Docker image version pulled from Docker-hub)
     container_name: influxdb
     ports:
-      - "${INFLUXDB_LOCAL_PORT}:${INFLUXDB_CONTAINER_PORT}"
+      - "${INFLUXDB_LOCAL_PORT}:8086"
     environment:
       - INFLUXDB_DB=${INFLUXDB_DB}
       - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
@@ -22,7 +22,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "${GRAFANA_LOCAL_PORT}: ${GRAFANA_CONTAINER_PORT}"
+      - "${GRAFANA_LOCAL_PORT}: 3000"
     environment:
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
