@@ -22,7 +22,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "${GRAFANA_LOCAL_PORT}: 3000"
+      - "${GRAFANA_LOCAL_PORT}:3000"
     environment:
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
@@ -30,6 +30,15 @@ services:
       - ./grafana/data:/var/lib/grafana
     depends_on:
       - influxdb # !IMPORTANT: Run influxdb > Run grafana
+    networks:
+      - monitoring
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "${LOKI_LOCAL_PORT}:3100"
+    command: -config.file=/etc/loki/local-config.yaml
     networks:
       - monitoring
 networks:
