@@ -34,6 +34,8 @@ services:
     volumes:
       - ./grafana/data:/var/lib/grafana
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+
     depends_on:
       - influxdb # !IMPORTANT: Run influxdb > Run grafana
     networks:
