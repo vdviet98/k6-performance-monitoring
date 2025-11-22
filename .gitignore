@@ -1,0 +1,13 @@
+# Data folders
+grafana/data/
+influxdb/data/
+
+# Environment
+.env
+
+# Logs
+*.log 
+
+# OS
+.DS_Store
+Thumbs.db

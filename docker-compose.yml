@@ -1,0 +1,38 @@
+# Header
+# Docker compose syntax version
+version: '3.8'
+
+# List of containers
+services:
+  influxdb: # Service name (define by your self)
+    image: influxdb:1.8 # (Docker image version pulled from Docker-hub)
+    container_name: influxdb
+    ports:
+      - "${INFLUXDB_LOCAL_PORT}:${INFLUXDB_CONTAINER_PORT}"
+    environment:
+      - INFLUXDB_DB=${INFLUXDB_DB}
+      - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
+      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb # Save data to local
+    networks:
+      - monitoring # If in the same network, 2 container can comnunicate
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "${GRAFANA_LOCAL_PORT}: ${GRAFANA_CONTAINER_PORT}"
+    environment:
+      - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    depends_on:
+      - influxdb # !IMPORTANT: Run influxdb > Run grafana
+    networks:
+      - monitoring
+networks:
+  monitoring: # Create network 'monitoring'
+    driver: bridge # Default driver (containter in a network can ping each other)
+    
